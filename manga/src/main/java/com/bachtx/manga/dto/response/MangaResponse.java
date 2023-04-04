@@ -18,6 +18,8 @@ public class MangaResponse {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UserResponse publisher;
     private String imageUrl;
+    private boolean isActive;
+    private boolean isEnable;
     private Instant createdAt;
     private Instant updatedAt;
     @JsonInclude(JsonInclude.Include.NON_NULL)

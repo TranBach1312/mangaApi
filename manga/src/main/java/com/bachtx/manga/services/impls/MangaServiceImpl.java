@@ -63,13 +63,8 @@ public class MangaServiceImpl implements MangaService {
         try {
             Sort sort = Sort.by("updatedAt").descending();
             Pageable pageable = PageRequest.of(page, pageSize, sort);
-            List<MangaResponse> mangaResponses = mangaRepository.findAllByIsActiveTrue(pageable)
-                    .stream()
-                    .map(manga -> {
-                        MangaResponse mangaResponse = mangaMapper.MAPPER.mangaToMangaResponse(manga);
-                        return mangaResponse;
-                    })
-                    .toList();
+            List<Manga> mangas = mangaRepository.findAllByActiveTrue(pageable).stream().toList();
+            List<MangaResponse> mangaResponses = mangaMapper.MAPPER.mangaListToMangaResponseList(mangas);
             if (mangaResponses.isEmpty()) {
                 throw new NotFoundException("No manga found");
             }
@@ -109,11 +104,11 @@ public class MangaServiceImpl implements MangaService {
             String imageUrl = mediaUtil.uploadImage(mangaRequest.getImage(), "image");
             manga.setPublisher(requestUser);
             manga.setImageUrl(imageUrl);
+            manga.setEnable(true);
+            manga.setActive(true);
             Manga newManga = mangaRepository.save(manga);
-            entityManager.refresh(newManga);
             MangaResponse mangaResponse = mangaMapper.MAPPER.mangaToMangaResponse(newManga);
             mangaResponse.setGenres(genreMapper.MAPPER.genreListToGenreResponseList(manga.getGenres()));
-            mangaResponse.setChapters(null);
             return mangaResponse;
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid input");
@@ -152,9 +147,16 @@ public class MangaServiceImpl implements MangaService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PUBLISHER')")
-    public MangaResponse updateEnableStatus(MangaRequest mangaRequest) {
-        return null;
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public MangaResponse updateEnableStatus(Long mangaId, boolean isEnable) {
+        Manga manga = mangaRepository.findById(mangaId)
+                .orElseThrow(() -> new NotFoundException("Manga not found"));
+        manga.setEnable(isEnable);
+        Manga updatedManga = mangaRepository.save(manga);
+        entityManager.flush();
+        entityManager.refresh(updatedManga);
+        MangaResponse mangaResponse = mangaMapper.MAPPER.mangaToMangaResponse(updatedManga);
+        return mangaResponse;
     }
 
     @Override

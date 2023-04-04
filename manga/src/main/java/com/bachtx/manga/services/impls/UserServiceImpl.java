@@ -3,7 +3,7 @@ package com.bachtx.manga.services.impls;
 import com.bachtx.manga.dto.request.LoginRequest;
 import com.bachtx.manga.dto.request.RegisterRequest;
 import com.bachtx.manga.dto.response.UserResponse;
-import com.bachtx.manga.exceptions.UserAlreadyExistsException;
+import com.bachtx.manga.exceptions.AlreadyExistException;
 import com.bachtx.manga.mapper.UserMapper;
 import com.bachtx.manga.models.User;
 import com.bachtx.manga.models.UserDetailsImpl;
@@ -20,7 +20,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +54,7 @@ public class UserServiceImpl implements UserService {
             entityManager.refresh(userRegistered);
             return userMapper.MAPPER.userToUserResponse(userRegistered);
         } else {
-            throw new UserAlreadyExistsException("Username already exists!");
+            throw new AlreadyExistException("Username already exists!");
         }
     }
 

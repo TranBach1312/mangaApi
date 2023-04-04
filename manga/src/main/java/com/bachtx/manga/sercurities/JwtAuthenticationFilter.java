@@ -1,7 +1,5 @@
 package com.bachtx.manga.sercurities;
 
-import com.bachtx.manga.models.User;
-import com.bachtx.manga.models.UserDetailsImpl;
 import com.bachtx.manga.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

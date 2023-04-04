@@ -9,6 +9,8 @@ import java.util.List;
 public class GenreResponse {
     private Long genreId;
     private String name;
+    private String description;
+    private boolean isEnable;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<MangaResponse> mangas;
 }

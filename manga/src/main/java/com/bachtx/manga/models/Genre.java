@@ -14,7 +14,9 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long genreId;
     private String name;
-    @ManyToMany(mappedBy = "genres")
+    private String description;
+    private boolean isEnable;
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @ManyToMany(mappedBy = "genres", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Manga> mangas;
 }

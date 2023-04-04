@@ -15,6 +15,6 @@ public interface MangaService {
     MangaResponse getMangaDetails(Long mangaId);
     MangaResponse addManga(MangaRequest mangaRequest, User user);
     MangaResponse updateInfoManga(Long mangaId, MangaRequest mangaRequest, User user);
-    MangaResponse updateEnableStatus(MangaRequest mangaRequest);
+    MangaResponse updateEnableStatus(Long mangaId, boolean isActive);
     MangaResponse updateActiveStatus(Long mangaId, boolean isActive, User user);
 }

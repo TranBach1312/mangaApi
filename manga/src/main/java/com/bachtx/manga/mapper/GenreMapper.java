@@ -1,5 +1,6 @@
 package com.bachtx.manga.mapper;
 
+import com.bachtx.manga.dto.request.GenreRequest;
 import com.bachtx.manga.dto.response.GenreResponse;
 import com.bachtx.manga.models.Genre;
 import org.mapstruct.Mapper;
@@ -22,4 +23,5 @@ public interface GenreMapper {
             @Mapping(target = "mangas", ignore = true)
     })
     List<GenreResponse> genreListToGenreResponseList(List<Genre> genres);
+    Genre genreRequestToGenre(GenreRequest genreRequest);
 }

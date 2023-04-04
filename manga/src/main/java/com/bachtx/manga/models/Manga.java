@@ -13,7 +13,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "mangas")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Manga {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +25,10 @@ public class Manga {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private User publisher;
     private String imageUrl;
-    private boolean isActive;
+    @Column(name = "is_active")
+    private boolean active;
+    @Column(name = "is_enable")
+    private boolean enable;
     @Generated(GenerationTime.ALWAYS)
     private Instant createdAt;
     @Generated(GenerationTime.ALWAYS)
